@@ -1,0 +1,70 @@
+<?xml version="1.0"?>
+<config
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="bluethink" translate="label" sortOrder="30">
+            <label>BlueThink Inc</label>
+        </tab>
+        <section id="bluethink_admin_quantitydropdown" translate="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Product Quantity Dropdown</label>
+            <tab>bluethink</tab>
+            <resource>Bluethinkinc_QuantityDropdown::bluethink_admin_quantitydropdown</resource>
+            <group id="general" translate="label comment" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>General Configuration</label>
+                <field id="enable" translate="label comment" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="max_quantity_value" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <validate>required-entry</validate>
+                    <label>Max Quantity Value</label>
+                    <depends>
+                         <field id="enable">1</field>
+                    </depends>
+                    <comment>Maximum Quantity Value</comment>
+                </field>
+                 <field id="dropdown_type" translate="label comment" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Dropdown Type</label>
+                    <source_model>Bluethinkinc\QuantityDropdown\Model\Config\Source\Dropdowntype</source_model>
+                    <depends>
+                         <field id="enable">1</field>
+                    </depends>
+                </field>
+                <field id="start_qty" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <validate>required-entry</validate>
+                    <label>Start Increment value</label>
+                    <comment>Input Format: number1</comment>
+                    <depends>
+                        <field id="enable">1</field>
+                        <field id="dropdown_type">1</field>
+                    </depends>
+                </field>
+                <field id="increment_qty" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <validate>required-entry</validate>
+                    <label>Increment Value</label>
+                    <comment>Input Format: number1</comment>
+                    <depends>
+                        <field id="enable">1</field>
+                        <field id="dropdown_type">1</field>
+                    </depends>
+                </field>
+                <field id="custom_value" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <validate>required-entry</validate>
+                    <label>Custom Value</label>
+                    <comment>Input Format: number1,number2,numberX</comment>
+                    <depends>
+                        <field id="enable">1</field>
+                        <field id="dropdown_type">2</field>
+                    </depends>
+                </field>
+                <field id="show_price_in_dropdown" translate="label comment" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Show Price In Dropdown</label>
+                    <source_model>Bluethinkinc\QuantityDropdown\Model\Config\Source\ShowPriceInDropdown</source_model>
+                    <depends>
+                         <field id="enable">1</field>
+                    </depends>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

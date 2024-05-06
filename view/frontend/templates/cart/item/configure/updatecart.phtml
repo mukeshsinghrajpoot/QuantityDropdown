@@ -1,0 +1,132 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+/** @var $block \Magento\Catalog\Block\Product\View */
+$config=$block->getData('productviewModel');
+$Pricinghelper = $config->getPriceHelper();
+$configenable = $config->enable();
+$maxqty=$config->maxqty();
+$dropdowntype=$config->dropdowntype();
+$customvalue=$config->customvalue();
+$showpricedropdown=$config->showpricedropdown();
+$startqty=$config->startqty();
+$incrementqty=$config->incrementqty();
+if ($showpricedropdown=='price-per-one') {
+        $pricetext='for each';
+} elseif ($showpricedropdown=='total-price') {
+    $pricetext='for total';
+} else {
+    $pricetext='';
+}
+?>
+<?php $_product = $block->getProduct();
+$customprice=$_product->getFinalPrice();?>
+<?php $buttonTitle = __('Update Cart'); ?>
+<?php if ($_product->isSaleable()):?>
+    <div class="box-tocart update">
+        <fieldset class="fieldset">
+            <?php if ($block->shouldRenderQuantity()):?>
+                <?php if (($_product->getTypeId()=='simple' || $_product->getTypeId()=='configurable')
+                && ($configenable == 1)) { ?>     
+        <div class="field qty">
+            <label class="label" for="qty"><span><?= $block->escapeHtml(__('Qty')) ?></span></label>
+                    <?php if ($dropdowntype=='0') { ?>
+            <div class="control">
+                <select name="qty" id="qty" class="qty" 
+                data-validate="<?= $block->escapeHtml(json_encode($block->getQuantityValidators())) ?>">
+                        <?php for ($i=1; $i <= $maxqty; $i++):?>
+                            <?php $price=$customprice*$i;
+                            $Totalprice=$Pricinghelper->currency($price, true, false);
+                            $peritemprice=$Pricinghelper->currency($customprice, true, false); ?>
+                        <option value="<?= $block->escapeHtml($i) ?>">
+                            <?php if ($pricetext=='for each') { echo $block->escapeHtml($i).
+                                ' '.$block->escapeHtml($pricetext).' '.$block->escapeHtml($peritemprice);
+                            } elseif ($pricetext=='for total') { echo $block->escapeHtml($i).' '.
+                                $block->escapeHtml($pricetext).' '.$block->escapeHtml($Totalprice);
+                            } else { echo $block->escapeHtml($i);}?>
+                        </option>
+                    <?php endfor;?>
+                </select>
+            </div>
+             <?php } elseif ($dropdowntype=='1') { ?>
+             <div class="control">
+                <select name="qty" id="qty" class="qty"
+                 data-validate="<?= $block->escapeHtml(json_encode($block->getQuantityValidators())) ?>">
+                        <?php for ($i=$startqty; $i <= $maxqty; $i+=$incrementqty):?>
+                            <?php $price=$customprice*$i;
+                            $Totalprice=$Pricinghelper->currency($price, true, false);
+                            $peritemprice=$Pricinghelper->currency($customprice, true, false); ?>
+                        <option value="<?= $block->escapeHtml($i) ?>">
+                            <?php if ($pricetext=='for each') { echo $block->escapeHtml($i).
+                                ' '.$block->escapeHtml($pricetext).' '.$block->escapeHtml($peritemprice);
+                            } elseif ($pricetext=='for total') { echo $block->escapeHtml($i).' '.
+                                $block->escapeHtml($pricetext).' '.$block->escapeHtml($Totalprice);
+                            } else { echo $block->escapeHtml($i);}?>
+                        </option>
+                    <?php endfor;?>
+                </select>
+            </div>   
+            <?php } else { ?>
+             <div class="control">
+                 <select name="qty" id="qty" class="qty" 
+                 data-validate="<?= $block->escapeHtml(json_encode($block->getQuantityValidators())) ?>">
+                    <?php $customvalues = explode(",", $customvalue);
+                    foreach ($customvalues as $customval) {
+                        $price=$customprice*$customval;
+                        $Totalprice=$Pricinghelper->currency($price, true, false);
+                        $peritemprice=$Pricinghelper->currency($customprice, true, false);
+                        ?>
+                        <option value="<?= $block->escapeHtml($customval) ?>">
+                            <?php if ($pricetext=='for each') { echo $block->escapeHtml($customval).
+                                ' '.$block->escapeHtml($pricetext).' '.$block->escapeHtml($peritemprice);
+                            } elseif ($pricetext=='for total') { echo $block->escapeHtml($customval).
+                                ' '.$block->escapeHtml($pricetext).' '.$block->escapeHtml($Totalprice);
+                            } else { echo $block->escapeHtml($customval);}?>
+                        </option>
+                    <?php } ?>
+                </select>
+             </div>   
+            <?php } ?>    
+        </div>  
+        <?php } else { ?>    
+            <div class="field qty">
+                <label class="label" for="qty"><span><?= $block->escapeHtml(__('Qty')) ?></span></label>
+                <div class="control">
+                    <input type="number"
+                           name="qty"
+                           id="qty"
+                           min="0"
+                           value=""
+                           title="<?= $block->escapeHtmlAttr(__('Qty')) ?>"
+                           class="input-text qty"
+                           data-validate="<?= $block->escapeHtml(json_encode($block->getQuantityValidators())) ?>"/>
+                </div>
+            </div>
+           <?php } ?> 
+            <?php endif; ?>
+            <div class="actions">
+                <button type="submit"
+                        title="<?= $block->escapeHtmlAttr($buttonTitle) ?>"
+                        class="action primary tocart"
+                        id="product-updatecart-button">
+                    <span><?= $block->escapeHtml($buttonTitle) ?></span>
+                </button>
+                <?= $block->getChildHtml('', true) ?>
+            </div>
+        </fieldset>
+    </div>
+    <script type="text/x-magento-init">
+        {
+            "#product_addtocart_form": {
+                "validation": {},
+                "addToCart": {
+                    "cartButtonId": "#product-updatecart-button",
+                    "cartForm": "#product_addtocart_form"
+                }
+            }
+        }
+    </script>
+<?php endif; ?>

@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <bluethink_admin_quantitydropdown>
+            <general> 
+                <max_quantity_value>10</max_quantity_value> 
+                <dropdown_type>0</dropdown_type> 
+                <start_qty>1</start_qty> 
+                <increment_qty>2</increment_qty>
+                <show_price_in_dropdown>price-per-one</show_price_in_dropdown>                             
+            </general>
+        </bluethink_admin_quantitydropdown>
+    </default>
+</config>

@@ -1,0 +1,21 @@
+<?xml version="1.0"?> 
+<page xmlns:xsi="w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd"> 
+    <body> 
+        <referenceBlock name="product.info.addtocart"> 
+            <action method="setTemplate"> 
+                <argument name="template" xsi:type="string">Bluethinkinc_QuantityDropdown::product/view/addtocart.phtml</argument>
+            </action>
+            <arguments>
+                    <argument name="viewModel" xsi:type="object">Bluethinkinc\QuantityDropdown\ViewModel\ProductViewModel</argument>
+                </arguments> 
+        </referenceBlock> 
+        <referenceBlock name="product.info.addtocart.additional"> 
+            <action method="setTemplate"> 
+                <argument name="template" xsi:type="string">Bluethinkinc_QuantityDropdown::product/view/addtocart.phtml</argument>
+            </action>
+            <arguments>
+                    <argument name="viewModel" xsi:type="object">Bluethinkinc\QuantityDropdown\ViewModel\ProductViewModel</argument>
+                </arguments> 
+        </referenceBlock> 
+    </body>
+</page>
